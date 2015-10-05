@@ -9,7 +9,7 @@ while True:
  
     # give the user a certain amount of guesses
     for i in range(NUMBER_OF_GUESSES):
-        guess = raw_input('guess the number: ')
+        guess = int(raw_input('guess the number: '))
         if guess == random_number:
             print 'well done'
             continue
