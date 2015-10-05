@@ -20,3 +20,30 @@ def get_neighbours():
 size = X, Y = 2, 2
 grid = get_grid()
 neighbours = get_neighbours()
+
+paths = []
+path = []
+
+for letter1 in grid:
+    path.append(letter1)
+    paths.append(path[:])
+
+    for letter2 in neighbours[letter1]:
+        path.append(letter2)
+        paths.append(path[:])
+
+        for letter3 in neighbours[letter2]:
+            path.append(letter3)
+            paths.append(path[:])
+
+            for letter4 in neighbours[letter3]:
+                path.append(letter4)
+                paths.append(path[:])
+                path.pop()
+
+            path.pop()
+        path.pop()
+    path.pop()
+
+for path in paths:
+    print ''.join([grid[p] for p in path])
