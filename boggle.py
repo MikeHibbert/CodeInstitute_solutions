@@ -25,18 +25,26 @@ def path_to_word(path):
 
 
 def search(path):
-    logging.debug('%s: %s' % (path, path_to_word(path)))
-    paths.append(path)
+    word = path_to_word(path)
+    logging.debug('%s: %s' % (path, word))
+    if word in dictionary:
+        paths.append(path)
     for next_pos in neighbours[path[-1]]:
         if next_pos not in path:
             search(path + [next_pos])
         else:
-            logging.debug('%s: skipping %s because in path' % (path, grid[next_pos]))
+            logging.debug('skipping %s because in path' % grid[next_pos])
+
+
+def get_dictionary():
+    with open('words.txt') as f:
+        return [word.strip().upper() for word in f]
 
 
 size = X, Y = 2, 2
 grid = get_grid()
 neighbours = get_neighbours()
+dictionary = get_dictionary()
 
 paths = []
 
