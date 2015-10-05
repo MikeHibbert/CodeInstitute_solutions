@@ -2,7 +2,7 @@ from random import choice
 from string import ascii_uppercase
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 def get_grid():
@@ -33,7 +33,7 @@ def search(path):
         if next_pos not in path:
             search(path + [next_pos])
         else:
-            logging.debug('skipping %s because in path' % grid[next_pos])
+            logging.debug('%s: skipping %s because in path' % (path, grid[next_pos]))
 
 
 def get_dictionary():
@@ -41,7 +41,7 @@ def get_dictionary():
         return [word.strip().upper() for word in f]
 
 
-size = X, Y = 2, 2
+size = X, Y = 3, 3
 grid = get_grid()
 neighbours = get_neighbours()
 dictionary = get_dictionary()
