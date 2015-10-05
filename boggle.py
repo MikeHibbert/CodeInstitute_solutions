@@ -25,11 +25,10 @@ paths = []
 
 
 def search(path):
-    if len(path) > size[0] * size[1]:
-        return
     paths.append(path)
     for next_pos in neighbours[path[-1]]:
-        search(path + [next_pos])
+        if next_pos not in path:
+            search(path + [next_pos])
 
 
 for position in grid:
