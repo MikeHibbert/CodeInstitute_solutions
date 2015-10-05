@@ -1,5 +1,8 @@
 from random import choice
 from string import ascii_uppercase
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 def get_grid():
@@ -17,22 +20,28 @@ def get_neighbours():
     return neighbours
 
 
+def path_to_word(path):
+    return ''.join([grid[p] for p in path])
+
+
+def search(path):
+    logging.debug('%s: %s' % (path, path_to_word(path)))
+    paths.append(path)
+    for next_pos in neighbours[path[-1]]:
+        if next_pos not in path:
+            search(path + [next_pos])
+        else:
+            logging.debug('%s: skipping %s because in path' % (path, grid[next_pos]))
+
+
 size = X, Y = 2, 2
 grid = get_grid()
 neighbours = get_neighbours()
 
 paths = []
 
-
-def search(path):
-    paths.append(path)
-    for next_pos in neighbours[path[-1]]:
-        if next_pos not in path:
-            search(path + [next_pos])
-
-
 for position in grid:
+    logging.info('searching %s' % str(position))
     search([position])
 
-for path in paths:
-    print ''.join([grid[p] for p in path])
+print [path_to_word(p) for p in paths]
