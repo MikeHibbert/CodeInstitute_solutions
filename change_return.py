@@ -18,21 +18,24 @@ def give_change(amount):
             amount -= coin
             change.append(float(coin))
     return change
- 
- 
+
+
+def give_item_and_change(item, amount):
+    if item not in available_items:
+        return None, amount, "that item isn't available"
+
+    cost = available_items[item]
+
+    if amount < cost:
+        return None, amount, 'not enough money'
+
+    change_to_return = float(amount) - cost
+    coins = give_change(change_to_return)
+    return item, coins, "here's your change"
+
+
 if __name__ == '__main__':
     while True:
-        prompt = 'choose item: %s' % available_items
-        chosen_item = raw_input(prompt)
-        if chosen_item not in available_items:
-            print "that item isn't available"
-            continue
- 
+        item = raw_input('choose item: %s' % available_items)
         amount = raw_input('enter amount in pounds:')
-        cost = available_items[chosen_item]
-        if amount < cost:
-            print 'not enough money'
-        else:
-            change_to_return = float(amount) - cost
-            coins = give_change(change_to_return)
-            print "here's your change: %s" % coins
+        print give_item_and_change(item, amount)
