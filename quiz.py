@@ -9,9 +9,13 @@ def get_questions():
 
 try:
     questions = get_questions()
-except:
-    print 'Questions file not found.'
+except IOError:
+    print 'Error: Questions file not found.'
     sys.exit()
+except IndexError:
+    print 'Error: All questions in the questions file must have answers.'
+    sys.exit()
+
 score = 0
 total = len(questions)
 for question, answer in questions:
