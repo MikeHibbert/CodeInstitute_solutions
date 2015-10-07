@@ -6,10 +6,12 @@ logging.basicConfig(level=logging.INFO)
 
 
 def get_grid():
+    """Return a dictionary of grid positions to random letters"""
     return {(x, y): choice(ascii_uppercase) for x in range(X) for y in range(Y)}
 
 
 def get_neighbours():
+    """Return a dictionary with all the neighbours surrounding a particular position"""
     neighbours = {}
 
     for position in grid:
@@ -21,10 +23,12 @@ def get_neighbours():
 
 
 def path_to_word(path):
+    """Convert a list of grid positions to a word"""
     return ''.join([grid[p] for p in path])
 
 
 def search(path):
+    """Recursively search the grid for words"""
     word = path_to_word(path)
     logging.debug('%s: %s' % (path, word))
     if word in dictionary:
@@ -37,19 +41,36 @@ def search(path):
 
 
 def get_dictionary():
+    """Return a list of uppercase english words"""
     with open('words.txt') as f:
         return [word.strip().upper() for word in f]
 
 
+def get_words():
+    """Search each grid position and return all the words found"""
+    for position in grid:
+        logging.info('searching %s' % str(position))
+        search([position])
+    return [path_to_word(p) for p in paths]
+
+
+def print_grid(grid):
+    """Print the grid as a readable string"""
+    s = ''
+    for y in range(Y):
+        for x in range(Y):
+            s += grid[x, y] + ' '
+        s += '\n'
+    print s
+
+
 size = X, Y = 3, 3
 grid = get_grid()
+print_grid(grid)
+
 neighbours = get_neighbours()
 dictionary = get_dictionary()
-
 paths = []
 
-for position in grid:
-    logging.info('searching %s' % str(position))
-    search([position])
-
-print [path_to_word(p) for p in paths]
+words = get_words()
+print words
