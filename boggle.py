@@ -1,8 +1,19 @@
 from random import choice
 from string import ascii_uppercase
 import logging
+import time
 
 logging.basicConfig(level=logging.INFO)
+
+
+def timeit(method):
+    def timed(*args, **kw):
+        t1 = time.time()
+        result = method(*args, **kw)
+        print '%r %2.2f sec' % (method.__name__, time.time() - t1)
+        return result
+
+    return timed
 
 
 def get_grid():
@@ -46,6 +57,7 @@ def get_dictionary():
         return [word.strip().upper() for word in f]
 
 
+@timeit
 def get_words():
     """Search each grid position and return all the words found"""
     for position in grid:
