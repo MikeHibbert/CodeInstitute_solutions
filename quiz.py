@@ -9,8 +9,8 @@ def get_questions():
 
 try:
     questions = get_questions()
-except IOError:
-    print 'Error: Questions file not found.'
+except IOError as e:
+    print 'Error reading questions file: %s' % e
     sys.exit()
 except IndexError:
     print 'Error: All questions in the questions file must have answers.'
