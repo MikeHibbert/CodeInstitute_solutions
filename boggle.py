@@ -42,6 +42,8 @@ def search(path):
     """Recursively search the grid for words"""
     word = path_to_word(path)
     logging.debug('%s: %s' % (path, word))
+    if word not in stems:
+        return
     if word in dictionary:
         paths.append(path)
     for next_pos in neighbours[path[-1]]:
@@ -52,9 +54,17 @@ def search(path):
 
 
 def get_dictionary():
-    """Return a list of uppercase english words"""
+    """Return a list of uppercase english words, including word stems"""
+    stems, dictionary = set(), set()
+
     with open('words.txt') as f:
-        return {word.strip().upper() for word in f}
+        for word in f:
+            word = word.strip().upper()
+            dictionary.add(word)
+
+            for i in range(len(word)):
+                stems.add(word[:i + 1])
+    return dictionary, stems
 
 
 @timeit
@@ -76,12 +86,12 @@ def print_grid(grid):
     print s
 
 
-size = X, Y = 3, 3
+size = X, Y = 4, 4
 grid = get_grid()
 print_grid(grid)
 
 neighbours = get_neighbours()
-dictionary = get_dictionary()
+dictionary, stems = get_dictionary()
 paths = []
 
 words = get_words()
