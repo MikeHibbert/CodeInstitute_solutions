@@ -24,6 +24,22 @@ def draw_cells():
         pygame.draw.rect(screen, colour, rectangle)
 
 
+def get_neighbours((x, y)):
+    positions = [(x - 1, y - 1), (x, y - 1), (x + 1, y - 1), (x + 1, y),
+                 (x + 1, y + 1), (x, y + 1), (x - 1, y + 1), (x - 1, y)]
+    return [cells[r, c] for (r, c) in positions if 0 <= r < rows and 0 <= c < columns]
+
+
+def evolve():
+    for position, alive in cells.items():
+        live_neighbours = sum(get_neighbours(position))
+        if alive:
+            if live_neighbours < 2 or live_neighbours > 3:
+                cells[position] = False
+        elif live_neighbours == 3:
+            cells[position] = True
+
+
 pygame.init()
 columns, rows = 50, 50
 cell_size = 10
@@ -37,6 +53,7 @@ while True:
             sys.exit()
 
     draw_cells()
+    evolve()
     draw_grid()
 
     pygame.display.update()
