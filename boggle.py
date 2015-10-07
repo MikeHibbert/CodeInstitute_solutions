@@ -54,7 +54,7 @@ def search(path):
 def get_dictionary():
     """Return a list of uppercase english words"""
     with open('words.txt') as f:
-        return [word.strip().upper() for word in f]
+        return {word.strip().upper() for word in f}
 
 
 @timeit
