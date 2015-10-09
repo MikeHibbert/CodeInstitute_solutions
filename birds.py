@@ -1,7 +1,7 @@
 class Bird:
     def __init__(self, kind, call):
-        self.kind = kind
-        self.call = call
+        self._kind = kind
+        self._call = call
 
     def do_call(self):
-        print 'a %s goes %s' % (self.kind, self.call)
+        print 'a %s goes %s' % (self._kind, self._call)
